@@ -48,7 +48,7 @@ const userSchema = {
         defaultValue: false
     },
 
-    Password_hash: {
+    password_hash: {
         type: DataTypes.STRING,
         allowNull: false,
     },

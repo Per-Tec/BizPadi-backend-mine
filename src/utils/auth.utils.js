@@ -5,7 +5,7 @@ const logger = require('./logger.js')
 
 require('dotenv').config()
 
-const { access_secret_key, access_secret_lifetime, refresh_secret_key, refresh_secret_lifetime } = config
+const { access_secret_key, access_secret_lifetime, refresh_secret_key, refresh_secret_lifetime } = process.env
 
 exports.generatePasswordCode = async () => {
     const setToken = randomBytes(20).toString("hex");

@@ -1,26 +1,12 @@
-const express = require("express")
-const app = express()
-const cors = require("cors");
-const pool = require("./db")
+const app = require("./src/app");
+const db = require("./src/configs/db");
 
-app.use(cors());
-app.use(express.json());
+require("dotenv").config();
 
+const { PORT }= process.env;
 
-app.get('/', async(req, res) =>{
-        const client = await pool.connect()
+app.listen(PORT, () =>{
+     console.log(`server is running on port ${PORT}`);
 
-        try {
-            
-            const result = await client.query 
-            res.json(result);
+    })
 
-        } catch (error) {
-            console.log(error)
-        }finally{
-            client.release();
-        }
-    res.status(404)
-})
-
-app.listen(3001, console.log("Server Running"))
