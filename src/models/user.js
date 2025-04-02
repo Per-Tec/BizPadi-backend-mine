@@ -58,7 +58,7 @@ const userSchema = {
         defaultValue: false
     },
 
-    pasword_reset_token: {
+    password_reset_token: {
         type: DataTypes.STRING,
         allowNull: true,
     },
