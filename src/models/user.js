@@ -53,7 +53,7 @@ const userSchema = {
         allowNull: false,
     },
 
-    isdeleted: {
+    is_deleted: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
     },

@@ -54,7 +54,7 @@ module.exports = {
            allowNull: false,
        },
 
-       isdeleted: {
+       is_deleted: {
            type: DataTypes.BOOLEAN,
            defaultValue: false
        },
