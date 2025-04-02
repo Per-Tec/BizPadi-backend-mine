@@ -4,8 +4,8 @@
   "description": "A capstone project backend APIs and design logics for an inventory app",
   "main": "index.js",
   "scripts": {
-     "start": "node index.js",
-     "dev": "nodemon  index.js"
+    "start": "node index.js",
+    "dev": "nodemon  index.js"
   },
   "keywords": [
     "inventory",
@@ -19,11 +19,25 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^5.1.0",
+    "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "nanoid": "^5.1.5",
+    "nodemailer": "^6.10.0",
     "nodemon": "^3.1.9",
-    "pg": "^8.14.1"
+    "pg": "^8.14.1",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.7",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
+    "uuid": "^11.1.0",
+    "winston": "^3.17.0"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.6.2"
   }
 }
