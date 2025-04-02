@@ -1,0 +1,29 @@
+{
+  "name": "bizpadi-backend",
+  "version": "1.0.0",
+  "description": "A capstone project backend APIs and design logics for an inventory app",
+  "main": "index.js",
+  "scripts": {
+     "start": "node index.js",
+     "dev": "nodemon  index.js"
+  },
+  "keywords": [
+    "inventory",
+    "authentication",
+    "user",
+    "product",
+    "invoice",
+    "payment",
+    "tracking"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "nodemon": "^3.1.9",
+    "pg": "^8.14.1"
+  }
+}
