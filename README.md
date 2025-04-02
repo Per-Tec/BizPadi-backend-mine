@@ -97,6 +97,7 @@ npm run test:coverage
 ```
 
 ## Project Structure
+```bash
 BizPadi-backend/
 ├── src/
 │   ├── configs/      # Configuration files
@@ -112,6 +113,7 @@ BizPadi-backend/
 ├── .env.example      # Environment variables example
 ├── package.json      # Project dependencies
 └── README.md         # Project documentation
+```
 
 ## Contributing
 1. Fork the repository
