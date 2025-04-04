@@ -58,3 +58,8 @@ exports.validatePassword = (password) => {
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%#./*?&])[A-Za-z\d@$!%#./*?&]{8,}$/;
     return passwordRegex.test(password);
 }
+
+exports.doHashValidation = (value, hashedValue) => {
+    const result = bcrypt.compare(value, hashedValue)
+    return result;
+}

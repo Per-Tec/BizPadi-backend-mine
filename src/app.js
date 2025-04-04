@@ -3,6 +3,7 @@ const app = express()
 const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
+const cookieParser = require("cookie-parser")
 
 require("dotenv").config();
 
@@ -17,10 +18,11 @@ app.use(morgan("dev"));
 app.use(cors());
 app.use(helmet());
 app.use(express.json());
+app.use(cookieParser())
 
 app.get("/", (req, res) => {
     res.send("Welcome to BizPadi API");
-});
+}); 
 
 app.use(`/api/v${API_VERSION}/auth/`, authRouter);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));

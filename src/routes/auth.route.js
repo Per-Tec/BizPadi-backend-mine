@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const {register} = require('../controllers/Authentication/register.controller')
+const {login} = require('../controllers/Authentication/login.controller')
 
 /**
  * @swagger
@@ -145,6 +146,7 @@ const {register} = require('../controllers/Authentication/register.controller')
  *                   type: string
  *                   example: Internal server error
  */
+router.post('/login', login)
 router.post('/register', register);
 
 module.exports = router;
