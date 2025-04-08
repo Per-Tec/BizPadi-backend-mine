@@ -4,6 +4,7 @@ const router = express.Router();
 
 const {register} = require('../controllers/Authentication/register.controller')
 const {login} = require('../controllers/Authentication/login.controller');
+const { changePassword } = require('../controllers/Authentication/changePassword.controller')
 const { handleGoogleCallback } = require('../controllers/Authentication/googleLogin.controller');
 const { authenticate } = require('../middlewares/auth.middleware');
 const { completeProfile } = require('../controllers/Authentication/profile.controller');
@@ -151,6 +152,7 @@ const { completeProfile } = require('../controllers/Authentication/profile.contr
  */
 router.post('/login', login)
 router.post('/register', register);
+router.patch('/change-password', authenticate, changePassword);
 
 
 //Google Auth Routes
