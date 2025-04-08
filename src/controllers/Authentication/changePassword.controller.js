@@ -4,7 +4,7 @@ const { hashPassword, verifyPassword, validatePassword } = require('../../utils/
 
 
 exports.changePassword = async (req, res) => {
-    const user_id = req.user; 
+    const user_id = req.user_id; 
     const { current_password, new_password, confirm_new_password } = req.body;
 
     if (!current_password || !new_password || !confirm_new_password) {

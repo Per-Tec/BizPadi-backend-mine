@@ -1,3 +1,4 @@
+const logger = require("../../utils/logger")
 exports.logout = async (req, res) => {
     try {
         logger.info(`START: Attempting to log out a user`);
