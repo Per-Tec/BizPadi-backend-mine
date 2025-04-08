@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize')
 const db = require('../configs/db')
+const { profile } = require('winston')
 
 
 const userSchema = {
@@ -56,6 +57,21 @@ const userSchema = {
     is_deleted: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
+    },
+
+    google_id: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+
+    profile_photo: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+
+    account_type: {
+        type: DataTypes.ENUM('local', 'google', 'facebook', 'twitter'),
+        defaultValue: 'local'
     },
 
     password_reset_token: {
