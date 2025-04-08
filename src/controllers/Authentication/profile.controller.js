@@ -1,4 +1,3 @@
-const { profile } = require('winston');
 const User = require('../../models/user');
 const logger = require('../../utils/logger');
 

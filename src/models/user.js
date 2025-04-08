@@ -1,6 +1,5 @@
 const { DataTypes } = require('sequelize')
 const db = require('../configs/db')
-const { profile } = require('winston')
 
 
 const userSchema = {
