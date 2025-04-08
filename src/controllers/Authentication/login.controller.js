@@ -11,7 +11,7 @@ exports.login = async (req, res) => {
 		             message: "Email and password are required"
 		         });
 		     }
-		
+
     try {
         logger.info(`START: Attempting to log in a user`);
 
@@ -23,7 +23,7 @@ exports.login = async (req, res) => {
 
         // Fetch user from database
         const existingUser = await User.findOne({
-            where: { email }, 
+            where: { email },
             attributes: ['user_id', 'email', 'password_hash'],
         });
 
@@ -38,17 +38,13 @@ exports.login = async (req, res) => {
         }
 
         // Generate Tokens
-        const accessToken = generateAccessToken({
-            userId: existingUser.user_id,  
-            email: existingUser.email,
-        //    verified: existingUser.verified,
-        });
+        const accessToken = generateAccessToken(
+            existingUser.user_id,
+);
 
-        const refreshToken = generateRefreshToken({
-            userId: existingUser.user_id, 
-            email: existingUser.email,
-        //    verified: existingUser.verified,
-        });
+        const refreshToken = generateRefreshToken(
+            existingUser.user_id,
+);
 
         // Set Cookies for tokens
         res.cookie('AccessToken', 'Bearer ' + accessToken, {
@@ -69,7 +65,7 @@ exports.login = async (req, res) => {
         };
 
         logger.info(`END: User with user_id: ${existingUser.user_id} successfully logged in`);
-        
+
         return res.status(200).json({
             success: true,
             message: "User logged in successfully",
@@ -81,7 +77,7 @@ exports.login = async (req, res) => {
                 		accessToken,
                  		refreshToken
 					}
-			
+
         });
 
     } catch (error) {
