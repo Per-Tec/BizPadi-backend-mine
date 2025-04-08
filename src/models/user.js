@@ -58,6 +58,21 @@ const userSchema = {
         defaultValue: false
     },
 
+    google_id: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+
+    profile_photo: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+
+    account_type: {
+        type: DataTypes.ENUM('local', 'google', 'facebook', 'twitter'),
+        defaultValue: 'local'
+    },
+
     password_reset_token: {
         type: DataTypes.STRING,
         allowNull: true,

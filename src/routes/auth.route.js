@@ -1,9 +1,12 @@
 const express = require('express');
-
+const passport = require('passport');
 const router = express.Router();
 
 const {register} = require('../controllers/Authentication/register.controller')
-const {login} = require('../controllers/Authentication/login.controller')
+const {login} = require('../controllers/Authentication/login.controller');
+const { handleGoogleCallback } = require('../controllers/Authentication/googleLogin.controller');
+const { authenticate } = require('../middlewares/auth.middleware');
+const { completeProfile } = require('../controllers/Authentication/profile.controller');
 
 /**
  * @swagger
@@ -148,5 +151,18 @@ const {login} = require('../controllers/Authentication/login.controller')
  */
 router.post('/login', login)
 router.post('/register', register);
+
+
+//Google Auth Routes
+router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'],
+    prompt: 'select_account',
+ }));
+
+router.get('/google/callback', passport.authenticate('google', {
+    failureRedirect: '/login',
+    session: true,
+}), handleGoogleCallback);
+
+router.post('/complete-profile', authenticate, completeProfile);
 
 module.exports = router;
