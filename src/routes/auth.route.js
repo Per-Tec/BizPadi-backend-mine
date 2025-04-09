@@ -9,6 +9,7 @@ const { changePassword } = require('../controllers/Authentication/changePassword
 const { handleGoogleCallback } = require('../controllers/Authentication/googleLogin.controller');
 const { authenticate } = require('../middlewares/auth.middleware');
 const { completeProfile } = require('../controllers/Authentication/profile.controller');
+const { verifyEmail } = require('../controllers/Authentication/verifyEmail.controller');
 
 /**
  * @swagger
@@ -155,6 +156,7 @@ router.post('/login', login);
 router.post('/register', register);
 router.post('/logout', authenticate, logout);
 router.patch('/change-password', authenticate, changePassword);
+router.get('/verify-email/:otp', verifyEmail)
 
 
 //Google Auth Routes
