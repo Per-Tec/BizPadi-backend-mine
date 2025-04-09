@@ -83,6 +83,16 @@ const userSchema = {
         allowNull: true,
     },
 
+    email_verification_code: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+
+    email_verification_expiry: {
+        type: DataTypes.DATE,
+        allowNull: true,
+    },
+
     created_at: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW

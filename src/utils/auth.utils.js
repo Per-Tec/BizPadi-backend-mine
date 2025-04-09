@@ -7,12 +7,13 @@ require('dotenv').config()
 
 const { access_secret_key, access_secret_lifetime, refresh_secret_key, refresh_secret_lifetime } = process.env
 
-exports.generatePasswordCode = async () => {
+exports.generatePasswordCode = () => {
     const setToken = randomBytes(20).toString("hex");
-    const passwordresetcode =  createHash("sha256").update(setToken).digest("hex");
-    const passwordresetexpire = Date.now() + 15 * 60 * 1000;
+    const passwordresetcode = createHash("sha256").update(setToken).digest("hex");
+    const verifyToken = randomBytes(32).toString("hex");
+    const passwordresetexpire = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes from now
 
-    return { passwordresetcode, passwordresetexpire }
+    return { verifyToken, passwordresetcode, passwordresetexpire }
 }
 
 exports.hashPassword = async(password) => {
