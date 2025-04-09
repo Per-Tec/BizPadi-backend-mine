@@ -56,7 +56,7 @@ exports.resetPassword = async(req, res) =>  {
 
         const hashedPassword = await hashPassword(password)
         await User.update({
-            password: hashedPassword,
+            password_hash: hashedPassword,
             password_reset_token: null,
             password_reset_token_expiry: null
         },
