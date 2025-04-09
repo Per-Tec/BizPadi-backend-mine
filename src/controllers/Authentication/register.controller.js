@@ -2,7 +2,6 @@
 const { Op } = require('sequelize');
 const { v4: uuidv4 } = require('uuid');
 require('dotenv').config();
-const {AUTH_URL} = process.env
 
 
 const logger = require('../../utils/logger');
@@ -10,8 +9,9 @@ const User = require('../../models/user');
 const { hashPassword, validatePassword, generatePasswordCode} = require('../../utils/auth.utils');
 const { sendVerificationEmail } = require('../../utils/mailer.utils');
 
+const { verifyToken, passwordresetexpire } = generatePasswordCode()
+const {AUTH_URL} = process.env
 
-//Definitions
 
 exports.register = async (req, res) => {
     const {first_name, last_name, business_name, industry, email, phone_number, password, confirm_password} = req.body;
@@ -58,8 +58,8 @@ exports.register = async (req, res) => {
         const user_id = uuidv4()
         const created_at = new Date().toISOString();
         const updated_at = new Date().toISOString();
-        const email_verification_code = generatePasswordCode().verifyToken
-        const email_verification_expiry = generatePasswordCode().passwordresetexpire
+        const email_verification_code = verifyToken
+        const email_verification_expiry = passwordresetexpire
         const newUser = await User.create({
             user_id,
             first_name,

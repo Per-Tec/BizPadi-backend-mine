@@ -29,7 +29,7 @@ const sendResetEmail = async (email_address, link) => {
           <div style="text-align: center; margin: 25px 0;">
             <a href="${link}" style="background-color: #1a73e8; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; display: inline-block; font-size: 20px;">Reset Password</a>
           </div>
-          <p style="color: #666; font-size: 14px; text-align: center;"><em>This OTP will expire in 10 minutes.</em></p>
+          <p style="color: #666; font-size: 14px; text-align: center;"><em>This Link will expire in 10 minutes.</em></p>
         </div>
       `
     });
