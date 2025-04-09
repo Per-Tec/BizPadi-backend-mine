@@ -9,7 +9,7 @@ const User = require('../../models/user');
 const { hashPassword, validatePassword, generatePasswordCode} = require('../../utils/auth.utils');
 const { sendVerificationEmail } = require('../../utils/mailer.utils');
 
-const { verifyToken, passwordresetexpire } = generatePasswordCode()
+//const { verifyToken, passwordresetexpire } = generatePasswordCode()
 const {AUTH_URL} = process.env
 
 
@@ -36,70 +36,75 @@ exports.register = async (req, res) => {
     })
 }
 
-    try {
-        logger.info(`START: Attempting to register a new user`);
-        const existingUser = await User.findOne({
-            where: {
-                [Op.or]: [
-                    { email: email },
-                    { phone_number: phone_number }
-                ]
-            }
-            });
+try {
+    logger.info(`START: Attempting to register a new user`);
 
-        if (existingUser) {
-            return res.status(409).json({
-                success: false,
-                message: "User already exists"
+    const existingUser = await User.findOne({
+        where: {
+            [Op.or]: [
+                { email },
+                { phone_number }
+            ]
+        }
+    });
+
+    if (existingUser) {
+        return res.status(409).json({
+            success: false,
+            message: "User already exists"
         })
     }
 
-        const hashedPassword = await hashPassword(password);
-        const user_id = uuidv4()
-        const created_at = new Date().toISOString();
-        const updated_at = new Date().toISOString();
-        const email_verification_code = verifyToken
-        const email_verification_expiry = passwordresetexpire
-        const newUser = await User.create({
-            user_id,
-            first_name,
-            last_name,
-            business_name,
-            industry,
-            email,
-            phone_number,
-            password_hash: hashedPassword,
-            created_at,
-            updated_at,
-            email_verification_code,
-            email_verification_expiry
-        });
+    const hashedPassword = await hashPassword(password);
+    const user_id = uuidv4();
+    const created_at = new Date().toISOString();
+    const updated_at = new Date().toISOString();
 
-        const verificationLink = `${AUTH_URL}/verify-email/${email_verification_code}`;
-        await sendVerificationEmail(email, verificationLink)
+    // Generating verification token & expiry 
+    const { verifyToken, passwordresetexpire } = generatePasswordCode();
 
-        const userData = {
-            user_id: newUser.user_id,
-            first_name: newUser.first_name,
-            last_name: newUser.last_name,
-            business_name: newUser.business_name,
-            industry: newUser.industry,
-            email: newUser.email,
-            email_verified: newUser.email_verified,
-            created_at: newUser.created_at
-        };
+    const newUser = await User.create({
+        user_id,
+        first_name,
+        last_name,
+        business_name,
+        industry,
+        email,
+        phone_number,
+        password_hash: hashedPassword,
+        created_at,
+        updated_at,
+        email_verification_code: verifyToken,
+        email_verification_expiry: passwordresetexpire
+    });
 
-        logger.info(`END: Successfully registered user with user_id: ${user_id}`)
-        return res.status(201).json({
-            success: true,
-            message: "User registered successfully",
-            data: userData
-        });
-    } catch (error) {
-        logger.error(`Error registering user: ${error.message}\nStack trace: ${error.stack}`);
-            res.status(500).json({
-                success: false,
-                message: "Internal server error",
-        });
-    }
-    }
+    const verificationLink = `${AUTH_URL}/verify-email/${verifyToken}`;
+    await sendVerificationEmail(email, verificationLink);
+
+    const userData = {
+        user_id: newUser.user_id,
+        first_name: newUser.first_name,
+        last_name: newUser.last_name,
+        business_name: newUser.business_name,
+        industry: newUser.industry,
+        email: newUser.email,
+        email_verified: newUser.email_verified,
+        created_at: newUser.created_at
+    };
+
+    logger.info(`END: Successfully registered user with user_id: ${user_id}`);
+    
+    return res.status(201).json({
+        success: true,
+        message: "User registered successfully",
+        data: userData
+    });
+
+} catch (error) {
+    logger.error(`Error registering user: ${error.message}\nStack trace: ${error.stack}`);
+    res.status(500).json({
+        success: false,
+        message: "Internal server error",
+    });
+}
+}

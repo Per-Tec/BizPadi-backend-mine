@@ -77,4 +77,4 @@ exports.resetPassword = async(req, res) =>  {
             message: 'Internal Server Error'
         });
     }
-}
+} 
