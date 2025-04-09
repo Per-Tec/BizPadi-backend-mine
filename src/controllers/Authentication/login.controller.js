@@ -31,6 +31,10 @@ exports.login = async (req, res) => {
             return res.status(401).json({ success: false, message: 'User does not exist!' });
         }
 
+        if(existingUser.email_verified === false) {
+            return res.status(401).json({ success: false, message: 'Email not verified!' });
+        }
+
         // Validate password
         const isValidPassword = await doHashValidation(password, existingUser.password_hash);
         if (!isValidPassword) {

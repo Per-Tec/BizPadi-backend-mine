@@ -1,11 +1,15 @@
 //Dependencies
 const { Op } = require('sequelize');
 const { v4: uuidv4 } = require('uuid');
+require('dotenv').config();
+const {BASE_URL} = process.env
 
 
 const logger = require('../../utils/logger');
 const User = require('../../models/user');
-const { hashPassword, validatePassword} = require('../../utils/auth.utils');
+const { hashPassword, validatePassword, generatePasswordCode} = require('../../utils/auth.utils');
+const { sendVerificationEmail } = require('../../utils/mailer.utils');
+
 
 //Definitions
 
@@ -54,6 +58,8 @@ exports.register = async (req, res) => {
         const user_id = uuidv4()
         const created_at = new Date().toISOString();
         const updated_at = new Date().toISOString();
+        const email_verification_code = generatePasswordCode().verifyToken
+        const email_verification_expiry = generatePasswordCode().passwordresetexpire
         const newUser = await User.create({
             user_id,
             first_name,
@@ -64,8 +70,13 @@ exports.register = async (req, res) => {
             phone_number,
             password_hash: hashedPassword,
             created_at,
-            updated_at
+            updated_at,
+            email_verification_code,
+            email_verification_expiry
         });
+
+        const verificationLink = `${BASE_URL}/api/v1/auth/verify-email/${email_verification_code}`;
+        await sendVerificationEmail(email, verificationLink)
 
         const userData = {
             user_id: newUser.user_id,
