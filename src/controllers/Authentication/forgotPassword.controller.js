@@ -6,6 +6,7 @@ const { sendResetEmail } = require("../../utils/mailer.utils");
 require("dotenv").config();
 const { AUTH_URL } = process.env;
 
+const { passwordresetcode, passwordresetexpire } = generatePasswordCode()
 
 
 exports.forgotPassword = async (req, res) => {
@@ -36,8 +37,8 @@ exports.forgotPassword = async (req, res) => {
             });
         }
 
-        const password_reset_token = generatePasswordCode().passwordresetcode
-        const password_reset_expiry = generatePasswordCode().passwordresetexpire
+        const password_reset_token = passwordresetcode
+        const password_reset_expiry = passwordresetexpire
         await User.update({
             password_reset_token: password_reset_token,
             password_reset_token_expiry: password_reset_expiry
