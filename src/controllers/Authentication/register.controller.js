@@ -2,7 +2,7 @@
 const { Op } = require('sequelize');
 const { v4: uuidv4 } = require('uuid');
 require('dotenv').config();
-const {BASE_URL} = process.env
+const {AUTH_URL} = process.env
 
 
 const logger = require('../../utils/logger');
@@ -75,7 +75,7 @@ exports.register = async (req, res) => {
             email_verification_expiry
         });
 
-        const verificationLink = `${BASE_URL}/api/v1/auth/verify-email/${email_verification_code}`;
+        const verificationLink = `${AUTH_URL}/verify-email/${email_verification_code}`;
         await sendVerificationEmail(email, verificationLink)
 
         const userData = {

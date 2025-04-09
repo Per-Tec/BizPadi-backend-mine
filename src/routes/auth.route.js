@@ -10,6 +10,8 @@ const { handleGoogleCallback } = require('../controllers/Authentication/googleLo
 const { authenticate } = require('../middlewares/auth.middleware');
 const { completeProfile } = require('../controllers/Authentication/profile.controller');
 const { verifyEmail } = require('../controllers/Authentication/verifyEmail.controller');
+const { forgotPassword } = require('../controllers/Authentication/forgotPassword.controller');
+const { resetPassword } = require('../controllers/Authentication/resetPassword.controller');
 
 /**
  * @swagger
@@ -157,6 +159,85 @@ router.post('/register', register);
 router.post('/logout', authenticate, logout);
 router.patch('/change-password', authenticate, changePassword);
 router.get('/verify-email/:otp', verifyEmail)
+
+/**
+ * @swagger
+ * /api/v1/auth/forgot-password:
+ *   post:
+ *     summary: Request password reset
+ *     description: Send a password reset link to user's email
+ *     tags:
+ *       - Authentication
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 description: User's registered email address
+ *                 example: john.doe@example.com
+ *     responses:
+ *       200:
+ *         description: Password reset email sent successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Password reset email sent successfully
+ *       400:
+ *         description: Bad request - email is required
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: Email is required
+ *       404:
+ *         description: User not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: Email not found
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: Internal server error
+ */
+router.post('/forgot-password', forgotPassword);
+router.post('/reset-password/:token', resetPassword);
 
 
 //Google Auth Routes
