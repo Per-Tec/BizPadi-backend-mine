@@ -1,49 +1,51 @@
 'use strict';
-module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    await queryInterface.sequelize.query('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
 
-    await queryInterface.createTable('Products', {
-      id: {
-        allowNull: false,
-        primaryKey: true,
-        type: Sequelize.UUID,
-        defaultValue: Sequelize.literal('uuid_generate_v4()'),
-      },
-      name: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      description: {
-        type: Sequelize.TEXT,
-      },
-      price: {
-        type: Sequelize.FLOAT,
-        allowNull: false,
-      },
-      quantity: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-      },
-      image_url: {
-        type: Sequelize.STRING,
-      },
-      category: {
-        type: Sequelize.STRING,
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+/** @type {import('sequelize-cli').Migration} */
+module.exports = {
+  async up (queryInterface, DataTypes) {
+   await queryInterface.createTable('products', {
+   product_id: {
+       type: DataTypes.STRING,
+       primaryKey: true,
+     //  allowNull: false,
+     },
+     name: {
+       type: DataTypes.STRING,
+       allowNull: false,
+     },
+     description: {
+       type: DataTypes.TEXT,
+     },
+     price: {
+       type: DataTypes.FLOAT,
+       allowNull: false,
+     },
+     quantity: {
+       type: DataTypes.INTEGER,
+       allowNull: false,
+     },
+     image_url: {
+       type: DataTypes.STRING,
+       allowNull: true,
+     },
+     category: {
+       type: DataTypes.STRING,
+       allowNull: true,
+     },
+     created_at: {
+       type: DataTypes.DATE,
+       defaultValue: DataTypes.NOW,
+     },
+     updated_at: {
+       type: DataTypes.DATE,
+       defaultValue: DataTypes.NOW,
+     },
       }
-    });
+   )
   },
-  down: async (queryInterface) => {
-    await queryInterface.dropTable('Products');
+
+  async down (queryInterface, Sequelize) {
+    await queryInterface.dropTable('products')
   }
 };
+
