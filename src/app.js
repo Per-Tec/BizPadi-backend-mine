@@ -13,7 +13,9 @@ const { API_VERSION, SESSION_SECRET} = process.env;
 
 //Routers
 const authRouter = require("./routes/auth.route");
-//const productRouter = require("./routes/product.route")
+const productRouter = require("./routes/product.route");
+const salesRoutes = require('./routes/sales.route');
+
 
 const { swaggerUi, specs } = require("./configs/swagger");
 
@@ -42,7 +44,8 @@ app.get("/", (req, res) => {
 
 app.use(`/api/v${API_VERSION}/auth/`, authRouter);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
-//app.use('/api/products', productRouter)
+app.use('/api/products', productRouter);
+app.use('/api/sales', salesRoutes); 
 
 // app.use('**', (req, res) => {
 //     res.status(404).json({
