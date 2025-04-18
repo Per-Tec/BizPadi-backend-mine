@@ -9,7 +9,7 @@ module.exports = {
         type: DataTypes.STRING,
         allowNull: false,
         primaryKey: true,
-        defaultValue: DataTypes.literal('uuid_generate_v4()'),
+        defaultValue: DataTypes.UUIDV4,
       },
       product_id: {
         type: DataTypes.STRING,

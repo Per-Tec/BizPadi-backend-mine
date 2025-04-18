@@ -16,6 +16,8 @@ exports.createProduct = async (req, res) => {
       category
     } = req.body;
 
+    // const user_id = req.user_id;
+
     const newProduct = await Product.create({
       product_id: uuidv4(), // generate a UUID
       name,
@@ -51,7 +53,7 @@ exports.getAllProducts = async (req, res) => {
     const whereClause = search
       ? {
           name: {
-            [Op.iLike]: `%${search}%`, 
+            [Op.iLike]: `%${search}%`,
           },
         }
       : {};

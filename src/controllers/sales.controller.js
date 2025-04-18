@@ -1,8 +1,6 @@
-// const Sale = require('../models/sales');
-// const  Product  = require('../models/product');
+const Sale = require('../models/sales');
+const  Product  = require('../models/product');
 // const { User } = require('../models/user');
-const db = require('../models'); 
-const { Sale, Product } = db;
 
 const { v4: uuidv4 } = require('uuid');
 const { Op } = require('sequelize');
@@ -22,7 +20,8 @@ exports.createSale = async (req, res) => {
       return res.status(400).json({ error: 'Insufficient product stock' });
     }
 
-    const total_price = price * quantity;
+    const total_price = Number(price) * Number(quantity);
+    // profit = price - product.cost_price * quantity; // Implement this logic
     // Update product stock
     product.quantity -= quantity;
     await product.save();
@@ -32,10 +31,9 @@ exports.createSale = async (req, res) => {
       sale_id: uuidv4(),
       product_id,
       quantity,
-      price,
-      total_price,
-      created_at: new Date(),
-      updated_at: new Date(),
+      total_price : Number(total_price),
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
     });
 
     res.status(201).json({ message: 'Sale recorded successfully', sale });
@@ -53,7 +51,6 @@ exports.getAllSales = async (req, res) => {
       const { count, rows } = await Sale.findAndCountAll({
         where: {
           [Op.or]: [
-            { customer_name: { [Op.iLike]: `%${search}%` } },
             { '$Product.name$': { [Op.iLike]: `%${search}%` } }
           ]
         },
@@ -78,7 +75,7 @@ exports.getAllSales = async (req, res) => {
 exports.getSaleById = async (req, res) => {
   try {
     const { id } = req.params;
-    const sale = await Sale.findByPk(id, { where: { sale_id: id } }, { include: Product });
+    const sale = await Sale.findByPk(id, { where: { sale_id: id } , include: [{model: Product}] });
 
     if (!sale) {
       return res.status(404).json({ error: 'Sale not found' });
