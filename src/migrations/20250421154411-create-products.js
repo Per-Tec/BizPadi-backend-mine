@@ -7,8 +7,18 @@ module.exports = {
    product_id: {
        type: DataTypes.STRING,
        primaryKey: true,
-     //  allowNull: false,
+       allowNull: false,
      },
+     user_id: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      references: {
+        model: 'users',
+        key: 'user_id',
+      },
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
+    },
      name: {
        type: DataTypes.STRING,
        allowNull: false,
@@ -16,7 +26,7 @@ module.exports = {
      description: {
        type: DataTypes.TEXT,
      },
-     price: {
+     cost_price: {
        type: DataTypes.FLOAT,
        allowNull: false,
      },

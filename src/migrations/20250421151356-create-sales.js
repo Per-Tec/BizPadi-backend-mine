@@ -1,4 +1,3 @@
-// migrations/20250415-create-sales.js
 'use strict';
 
 /** @type {import('sequelize-cli').Migration} */
@@ -11,6 +10,16 @@ module.exports = {
         primaryKey: true,
         defaultValue: DataTypes.UUIDV4,
       },
+      user_id: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        references: {
+          model: 'users',
+          key: 'user_id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
       product_id: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -21,19 +30,24 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
+      
       quantity: {
         type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      selling_price: {
+        type: DataTypes.FLOAT,
         allowNull: false,
       },
       total_price: {
         type: DataTypes.FLOAT,
         allowNull: false,
       },
-      // sale_date: {
-      //   type: DataTypes.DATE,
-      //   allowNull: false,
-      //   defaultValue: DataTypes.NOW,
-      // },
+      profit_made: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+      },
+      
       created_at: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW
@@ -50,3 +64,4 @@ module.exports = {
     await queryInterface.dropTable('sales');
   }
 };
+

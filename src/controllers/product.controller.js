@@ -1,7 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
 const { Op } = require('sequelize');
-const Product = require('../models/product');
-const Sale = require('../models/sales')
+const Product = require('../models/products');
+//const Sale = require('../models/sales')
 //const db = require('../models');
 //const { Sale, Product} = require('../models')
 
@@ -10,7 +10,7 @@ exports.createProduct = async (req, res) => {
     const {
       name,
       description,
-      price,
+      cost_price,
       quantity,
       image_url,
       category
@@ -22,7 +22,7 @@ exports.createProduct = async (req, res) => {
       product_id: uuidv4(), // generate a UUID
       name,
       description,
-      price,
+      cost_price,
       quantity,
       image_url,
       category,
@@ -139,48 +139,48 @@ exports.getAllProducts = async (req, res) => {
 
   // controllers/product.controller.js
 
-exports.sellProduct = async (req, res) => {
-    try {
-      const { id } = req.params;
-      const { quantity } = req.body;
+// exports.sellProduct = async (req, res) => {
+//     try {
+//       const { id } = req.params;
+//       const { quantity } = req.body;
   
-      if (!quantity || quantity <= 0) {
-        return res.status(400).json({ error: 'Invalid quantity provided' });
-      }
+//       if (!quantity || quantity <= 0) {
+//         return res.status(400).json({ error: 'Invalid quantity provided' });
+//       }
   
-      const product = await Product.findByPk(id);
+//       const product = await Product.findByPk(id);
   
-      if (!product) {
-        return res.status(404).json({ error: 'Product not found' });
-      }
+//       if (!product) {
+//         return res.status(404).json({ error: 'Product not found' });
+//       }
   
-      if (product.quantity < quantity) {
-        return res.status(400).json({ error: 'Not enough stock to fulfill the sale' });
-      }
+//       if (product.quantity < quantity) {
+//         return res.status(400).json({ error: 'Not enough stock to fulfill the sale' });
+//       }
       
-      // Calculate total price
-    const total_price = product.price * quantity;
+//       // Calculate total price
+//     const total_price = product.price * quantity;
 
-    // Record the sale
-    await Sale.create({
-      product_id: id,
-      quantity,
-      total_price,
-      sale_date: new Date(),
-    });
+//     // Record the sale
+//     await Sale.create({
+//       product_id: id,
+//       quantity,
+//       total_price,
+//       sale_date: new Date(),
+//     });
 
-      // Update product quantity
-      product.quantity -= quantity;
-      product.updated_at = new Date();
-      await product.save();
+//       // Update product quantity
+//       product.quantity -= quantity;
+//       product.updated_at = new Date();
+//       await product.save();
   
-      res.status(200).json({
-        message: 'Product sold successfully',
-        product,
-      });
-    } catch (error) {
-      console.error('Error processing sale:', error);
-      res.status(500).json({ error: 'Failed to process sale' });
-    }
-  };
+//       res.status(200).json({
+//         message: 'Product sold successfully',
+//         product,
+//       });
+//     } catch (error) {
+//       console.error('Error processing sale:', error);
+//       res.status(500).json({ error: 'Failed to process sale' });
+//     }
+//   };
   

@@ -7,10 +7,10 @@ const { Op } = require('sequelize');
 
 exports.createSale = async (req, res) => {
   try {
-    const { product_id, quantity, price } = req.body;
+    const { user_id, product_id, quantity, price } = req.body;
 
     // Check if product exists
-    const product = await Product.findByPk(product_id);
+    const product = await Product.findByPk(user_id, product_id); 
     if (!product) {
       return res.status(404).json({ error: 'Product not found' });
     }
@@ -20,8 +20,8 @@ exports.createSale = async (req, res) => {
       return res.status(400).json({ error: 'Insufficient product stock' });
     }
 
-    const total_price = Number(price) * Number(quantity);
-    // profit = price - product.cost_price * quantity; // Implement this logic
+    const total_price = Number(selling_price) * Number(quantity);
+    profit = selling_price - product.cost_price * quantity; // Implement this logic
     // Update product stock
     product.quantity -= quantity;
     await product.save();

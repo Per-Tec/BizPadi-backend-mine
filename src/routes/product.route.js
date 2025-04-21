@@ -5,7 +5,7 @@ const { authenticate } = require('../middlewares/auth.middleware')
 
 // Define your routes
 // Create product Route
-router.post('/', authenticate, productController.createProduct);
+router.post('/', productController.createProduct);
 /**
  * @swagger
  * /api/products:
@@ -262,78 +262,6 @@ router.delete('/:id', authenticate, productController.deleteProduct);
  *                   type: string
  *                   example: Failed to delete product
  */
-
-// Product Sales Route
-router.post('/:id/sell', authenticate, productController.sellProduct);
-/**
- * @swagger
- * /api/products/{id}/sell:
- *   post:
- *     summary: Sell a product (decrease quantity)
- *     description: Reduces the product quantity and records the sale.
- *     tags: [Products]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         description: The ID of the product to sell.
- *         schema:
- *           type: string
- *       - in: body
- *         name: quantity
- *         description: The quantity of the product to sell.
- *         required: true
- *         schema:
- *           type: object
- *           properties:
- *             quantity:
- *               type: integer
- *               example: 2
- *     responses:
- *       200:
- *         description: Product sold successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Product sold successfully"
- *                 product:
- *                   $ref: '#/components/schemas/Product'
- *       400:
- *         description: Invalid quantity or not enough stock
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: "Invalid quantity provided"
- *       404:
- *         description: Product not found
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: "Product not found"
- *       500:
- *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: "Failed to process sale"
- */
-
 
 
 module.exports = router;
