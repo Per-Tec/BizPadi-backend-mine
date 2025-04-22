@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const salesController = require('../controllers/sales.controller');
+const { authenticate } = require('../middlewares/auth.middleware');
 
 
 // Create sale Route
@@ -51,7 +52,7 @@ const salesController = require('../controllers/sales.controller');
  *       500:
  *         description: Server error
  */
-router.post('/', salesController.createSale);
+router.post('/', authenticate,salesController.createSale);
 
 
 
@@ -103,7 +104,7 @@ router.post('/', salesController.createSale);
  *       500:
  *         description: Server error
  */
-router.get('/', salesController.getAllSales);
+router.get('/', authenticate ,salesController.getAllSales);
 
 // Get sale by ID Route
 /**
@@ -136,7 +137,7 @@ router.get('/', salesController.getAllSales);
  *       500:
  *         description: Server error
  */
-router.get('/:id', salesController.getSaleById);
+router.get('/:id',authenticate,salesController.getSaleById);
 
 // Delete sale by ID Route
 
@@ -170,7 +171,7 @@ router.get('/:id', salesController.getSaleById);
  *       500:
  *         description: Server error
  */
-router.delete('/:id', salesController.deleteSale);
+router.delete('/:id', authenticate ,salesController.deleteSale);
 
 // Update sale by ID
 /**
@@ -221,7 +222,7 @@ router.delete('/:id', salesController.deleteSale);
  *       500:
  *         description: Server error
  */
-router.put('/:id', salesController.updateSale);
+router.put('/:id', authenticate ,salesController.updateSale);
 
 
 module.exports = router;

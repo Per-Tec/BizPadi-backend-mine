@@ -1,8 +1,9 @@
- const db = require('../models');
- const Product = db.Product;
+ const Product = require('./products');
 
 //const Product = require('./products');
 const { DataTypes } = require('sequelize');
+const User = require('./user');
+const db = require('../configs/db');
 
 const saleSchema = {
   sale_id: {
@@ -35,6 +36,12 @@ const saleSchema = {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+
+  cost_price: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
+  },
+
   selling_price: {
     type: DataTypes.FLOAT,
     allowNull: false,
@@ -65,6 +72,14 @@ Sale.belongsTo(Product, {
 });
 Product.hasMany(Sale, {
   foreignKey: 'product_id',
+});
+
+Sale.belongsTo(User, {
+  foreignKey: 'user_id',
+});
+
+User.hasMany(Sale, {
+  foreignKey: 'user_id',
 });
 
 module.exports = Sale

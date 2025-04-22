@@ -5,7 +5,7 @@ const { authenticate } = require('../middlewares/auth.middleware')
 
 // Define your routes
 // Create product Route
-router.post('/', productController.createProduct);
+router.post('/', authenticate, productController.createProduct);
 /**
  * @swagger
  * /api/products:
@@ -70,7 +70,7 @@ router.post('/', productController.createProduct);
  */
 
 // Get all products Route
-router.get('/', productController.getAllProducts);
+router.get('/', authenticate, productController.getAllProducts);
 /**
  * @swagger
  * /api/products:
@@ -106,7 +106,7 @@ router.get('/', productController.getAllProducts);
 
 
 // Get product by ID Route
-router.get('/:id', productController.getProductById);
+router.get('/:id', authenticate,  productController.getProductById);
 /**
  * @swagger
  * /api/products/{id}:
@@ -156,7 +156,7 @@ router.get('/:id', productController.getProductById);
  */
 
 // Update product Route
-router.put('/:id', productController.updateProduct);
+router.put('/:id', authenticate, productController.updateProduct);
 /**
  * @swagger
  * /api/products/{id}:

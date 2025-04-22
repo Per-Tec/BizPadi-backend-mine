@@ -1,29 +1,29 @@
-const { Sequelize } = require('sequelize');
-const dbConfig = require('../configs/db'); 
-const ProductModel = require('./product');
-const SaleModel = require('./sales');
-const UserModel = require('./user');
+// const { Sequelize } = require('sequelize');
+// const dbConfig = require('../configs/db'); 
+// const ProductModel = require('./product');
+// const SaleModel = require('./sales');
+// const UserModel = require('./user');
 
-// Initialize Sequelize
-const sequelize = dbConfig.sequelize;
+// // Initialize Sequelize
+// const sequelize = dbConfig.sequelize;
 
-// Create db object
-const db = {};
+// // Create db object
+// const db = {};
 
-db.Sequelize = Sequelize;
-db.sequelize = sequelize;
+// db.Sequelize = Sequelize;
+// db.sequelize = sequelize;
 
-// Load models
-db.Product = ProductModel;
-db.Sale = SaleModel;
-db.User = UserModel;
+// // Load models
+// db.Product = ProductModel;
+// db.Sale = SaleModel;
+// db.User = UserModel;
 
-// Run associations if they exist
-if (db.Product.associate) db.Product.associate(db);
-if (db.Sale.associate) db.Sale.associate(db);
-if (db.User.associate) db.User.associate(db);
+// // Run associations if they exist
+// if (db.Product.associate) db.Product.associate(db);
+// if (db.Sale.associate) db.Sale.associate(db);
+// if (db.User.associate) db.User.associate(db);
 
-module.exports = db;
+// module.exports = db;
 
 
 // const fs = require('fs');
