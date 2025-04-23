@@ -1,3 +1,4 @@
+
 const { DataTypes } = require('sequelize')
 const db = require('../configs/db')
 
@@ -59,5 +60,3 @@ const Product = db.sequelize.define('Product', productSchema, {
 
 
 module.exports = Product
-
-  

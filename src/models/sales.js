@@ -1,4 +1,4 @@
- const Product = require('./products');
+const Product = require('./products');
 
 //const Product = require('./products');
 const { DataTypes } = require('sequelize');
@@ -88,3 +88,5 @@ module.exports = Sale
 
 
 
+
+  
