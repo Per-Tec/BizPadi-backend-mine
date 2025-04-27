@@ -25,7 +25,7 @@ const { authenticate } = require("../middlewares/auth.middleware");
  *         quantity:
  *           type: integer
  *           example: 2
- *         price:
+ *         selling_price:
  *           type: number
  *           format: float
  *           example: 2000.00
@@ -37,9 +37,6 @@ const { authenticate } = require("../middlewares/auth.middleware");
  *           type: number
  *           format: float
  *           example: 1000.00
- *         customer_name:
- *           type: string
- *           example: "John Doe"
  *         created_at:
  *           type: string
  *           format: date-time
@@ -51,8 +48,7 @@ const { authenticate } = require("../middlewares/auth.middleware");
  *       required:
  *         - product_id
  *         - quantity
- *         - price
- *         - customer_name
+ *         - selling_price
  *     SaleUpdate:
  *       type: object
  *       properties:
@@ -85,20 +81,16 @@ const { authenticate } = require("../middlewares/auth.middleware");
  *             type: object
  *             required:
  *               - product_id
- *               - customer_name
  *               - quantity
- *               - total_price
+ *               - selling_price
  *             properties:
  *               product_id:
  *                 type: string
  *                 description: UUID of the product being sold
- *               customer_name:
- *                 type: string
- *                 description: Name of the customer
  *               quantity:
  *                 type: integer
  *                 description: Quantity of product sold
- *               total_price:
+ *               selling_price:
  *                 type: number
  *                 description: Total price of the sale
  *     responses:

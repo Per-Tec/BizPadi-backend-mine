@@ -15,7 +15,6 @@ exports.refreshToken = async (req, res) => {
         logger.info(`START: Attempting to refresh token`);
 
         const decoded = validateRefreshToken(refreshToken)
-console.log(decoded)
             // Fetch user from database
             const existingUser = await User.findOne({
                 where: { user_id: decoded.id },

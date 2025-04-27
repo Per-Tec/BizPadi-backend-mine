@@ -24,10 +24,6 @@ const { authenticate } = require("../middlewares/auth.middleware");
  *         description:
  *           type: string
  *           example: "A powerful fan with 3-speed settings"
- *         price:
- *           type: number
- *           format: float
- *           example: 200.00
  *         cost_price:
  *           type: number
  *           format: float
@@ -96,7 +92,7 @@ router.post("/", authenticate, productController.createProduct);
  *             type: object
  *             required:
  *               - name
- *               - price
+ *               - cost_price
  *               - quantity
  *             properties:
  *               name:
@@ -105,7 +101,7 @@ router.post("/", authenticate, productController.createProduct);
  *               description:
  *                 type: string
  *                 example: A powerful fan with 3-speed settings.
- *               price:
+ *               cost_price:
  *                 type: number
  *                 example: 200
  *               quantity:
