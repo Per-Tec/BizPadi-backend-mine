@@ -56,6 +56,10 @@ exports.createClient = async (req, res) => {
 
 
 exports.getAllClients = async (req, res) => {
+  const user_id = req.user_id;
+  if (!user_id) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
   try {
     logger.info(`START: Fetching clients`);
 
@@ -64,15 +68,18 @@ exports.getAllClients = async (req, res) => {
     const offset = (parseInt(page) - 1) * parseInt(limit);
 
     // Build search condition
-    const where = search
-      ? {
-          [Op.or]: [
-            { name: { [Op.iLike]: `%${search}%` } },
-            { email: { [Op.iLike]: `%${search}%` } },
-            { phone_number: { [Op.iLike]: `%${search}%` } },
-          ],
-        }
-      : {};
+    const where = {
+      user_id: user_id  // Always filter by user_id
+    };
+    
+    // Add search conditions if search parameter exists
+    if (search) {
+      where[Op.or] = [
+        { name: { [Op.iLike]: `%${search}%` } },
+        { email: { [Op.iLike]: `%${search}%` } },
+        { phone_number: { [Op.iLike]: `%${search}%` } },
+      ];
+    }
 
     const { count, rows } = await Client.findAndCountAll({
       where,
@@ -80,6 +87,13 @@ exports.getAllClients = async (req, res) => {
       offset,
       order: [['created_at', 'DESC']],
     });
+
+    if (count === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'No clients found',
+      });
+    }
 
     logger.info(`END: Clients fetched successfully`);
     return res.status(200).json({
@@ -98,14 +112,20 @@ exports.getAllClients = async (req, res) => {
   }
 };
 
-
 exports.getClientById = async (req, res) => {
+  const user_id = req.user_id;
+  if (!user_id) {
+    return res.status(401).json({
+      success: false,
+      message: 'Unauthorized',
+    });
+  }
   try {
     logger.info(`START: Fetching client by ID`);
 
     const { id } = req.params;
 
-    const client = await Client.findOne({ where: { client_id: id } });
+    const client = await Client.findOne({ where: { client_id: id, user_id: user_id } });
 
     if (!client) {
       return res.status(404).json({
@@ -131,13 +151,20 @@ exports.getClientById = async (req, res) => {
 
 
 exports.updateClientById = async (req, res) => {
+  const user_id = req.user_id;
+  if (!user_id) {
+    return res.status(401).json({
+      success: false,
+      message: 'Unauthorized',
+    });
+  }
   try {
     logger.info(`START: Updating client`);
 
     const { id } = req.params;
     const { name, email, phone_number, address } = req.body;
 
-    const client = await Client.findOne({ where: { client_id: id } });
+    const client = await Client.findOne({ where: { client_id: id, user_id: user_id } });
 
     if (!client) {
       return res.status(404).json({
@@ -173,12 +200,19 @@ exports.updateClientById = async (req, res) => {
 
 
 exports.deleteClientById = async (req, res) => {
+  const user_id = req.user_id;
+  if (!user_id) {
+    return res.status(401).json({
+      success: false,
+      message: 'Unauthorized',
+    });
+  }
   try {
     logger.info(`START: Deleting client`);
 
     const { id } = req.params;
 
-    const client = await Client.findOne({ where: { client_id: id } });
+    const client = await Client.findOne({ where: { client_id: id, user_id: user_id } });
 
     if (!client) {
       return res.status(404).json({

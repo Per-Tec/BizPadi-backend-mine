@@ -12,6 +12,7 @@ const { completeProfile } = require('../controllers/Authentication/profile.contr
 const { verifyEmail } = require('../controllers/Authentication/verifyEmail.controller');
 const { forgotPassword } = require('../controllers/Authentication/forgotPassword.controller');
 const { resetPassword } = require('../controllers/Authentication/resetPassword.controller');
+const { refreshToken } = require('../controllers/Authentication/refreshToken.controller');
 
 
 // Register Route
@@ -912,5 +913,45 @@ router.put('/complete-profile', authenticate, completeProfile);
  *                   type: string
  *                   example: Internal server error
  */
+
+
+router.post('/refresh-token', authenticate, refreshToken);
+/**
+ * @swagger
+ * /api/v1/auth/refresh-token:
+ *   post:
+ *     summary: Refresh access token
+ *     description: Generates a new access token using the refresh token.
+ *     tags:
+ *       - Authentication
+ *     responses:
+ *       200:
+ *         description: Access token refreshed successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 accessToken:
+ *                   type: string
+ *                   example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+ *       401:
+ *         description: Unauthorized - Invalid or expired refresh token
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: Invalid or expired refresh token
+ */
+
 
 module.exports = router;

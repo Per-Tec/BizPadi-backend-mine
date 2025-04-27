@@ -134,3 +134,13 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+docker-compose.override.yml
+docker-compose.override.dev.yml
+docker-compose.override.prod.yml
+docker-compose.override.test.yml
+docker-compose.override.local.yml
+docker-compose.override.staging.yml
+docker-compose.override.ci.yml
+docker-compose.override.ci.dev.yml
+docker-compose.yml
