@@ -5,8 +5,7 @@ const logger = require("../../utils/logger");
 
 
 exports.refreshToken = async (req, res) => {
-    const refreshToken = req.body.refreshToken
-    console.log(refreshToken)
+    const refreshToken = req.body.refreshToken || req.cookies.refreshToken
 
     if (!refreshToken) {
         return res.status(401).json({ success: false, message: 'Refresh token not found' });
@@ -31,12 +30,12 @@ console.log(decoded)
             const newRefreshToken = generateRefreshToken(existingUser.user_id);
 
             // Set Cookies for new tokens
-            res.cookie('AccessToken', 'Bearer ' + accessToken, {
+            res.cookie('accessToken', 'Bearer ' + accessToken, {
                 httpOnly: process.env.NODE_ENV === 'production',
                 secure: process.env.NODE_ENV === 'production',
             });
 
-            res.cookie('RefreshToken', 'Bearer ' + newRefreshToken, {
+            res.cookie('refreshToken', 'Bearer ' + newRefreshToken, {
                 httpOnly: process.env.NODE_ENV === 'production',
                 secure: process.env.NODE_ENV === 'production',
             });

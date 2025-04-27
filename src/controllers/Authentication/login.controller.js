@@ -51,22 +51,22 @@ exports.login = async (req, res) => {
 );
 
         // Set Cookies for tokens
-        res.cookie('AccessToken', 'Bearer ' + accessToken, {
+        res.cookie('accessToken', 'Bearer ' + accessToken, {
             httpOnly: process.env.NODE_ENV === 'production',
             secure: process.env.NODE_ENV === 'production',
         });
 
-        res.cookie('RefreshToken',refreshToken, {
+        res.cookie('refreshToken',refreshToken, {
             httpOnly: process.env.NODE_ENV === 'production',
             secure: process.env.NODE_ENV === 'production',
         });
 
-        // Prepare response data
-        const existingUserData = {
-            user_id: existingUser.user_id,
-            email: existingUser.email,
-           // verified: existingUser.verified,
-        };
+        // // Prepare response data
+        // const existingUserData = {
+        //     user_id: existingUser.user_id,
+        //     email: existingUser.email,
+        //    // verified: existingUser.verified,
+        // };
 
         logger.info(`END: User with user_id: ${existingUser.user_id} successfully logged in`);
 
