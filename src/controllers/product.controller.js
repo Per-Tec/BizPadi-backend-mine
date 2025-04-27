@@ -73,6 +73,12 @@ exports.getAllProducts = async (req, res) => {
   try {
     logger.info(`START: Fetching all products`);
     const { page = 1, limit = 10, search = '' } = req.query;
+    if(limit > 20) {
+      return res.status(400).json({
+        success: false,
+        message: 'Limit cannot be greater than 20',
+      });
+    }
 
     const offset = (page - 1) * limit;
 

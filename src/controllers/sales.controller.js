@@ -67,6 +67,12 @@ exports.getAllSales = async (req, res) => {
       logger.info(`START: Attempting to fetch all sales`);
       const { page = 1, limit = 10, search = '' } = req.query;
       const offset = (page - 1) * limit;
+      if(limit > 20) {
+        return res.status(400).json({
+          success: false,
+          message: 'Limit cannot be greater than 20',
+        });
+      }  
   
       const { count, rows } = await Sale.findAndCountAll({
         where: {

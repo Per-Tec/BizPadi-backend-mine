@@ -1,10 +1,12 @@
 const User = require("../../models/user");
-const { validateRefreshToken } = require("../../utils/auth.utils");
+const { validateRefreshToken, generateAccessToken, generateRefreshToken } = require("../../utils/auth.utils");
+const logger = require("../../utils/logger");
 
 
 
 exports.refreshToken = async (req, res) => {
-    const refreshToken = req.cookies.RefreshToken || req.body.RefreshToken || req.headers['authorization']?.split(' ')[1];
+    const refreshToken = req.body.refreshToken
+    console.log(refreshToken)
 
     if (!refreshToken) {
         return res.status(401).json({ success: false, message: 'Refresh token not found' });
@@ -14,10 +16,10 @@ exports.refreshToken = async (req, res) => {
         logger.info(`START: Attempting to refresh token`);
 
         const decoded = validateRefreshToken(refreshToken)
-
+console.log(decoded)
             // Fetch user from database
             const existingUser = await User.findOne({
-                where: { user_id: decoded.user_id },
+                where: { user_id: decoded.id },
             });
 
             if (!existingUser) {

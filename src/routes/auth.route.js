@@ -1,22 +1,37 @@
-const express = require('express');
-const passport = require('passport');
+const express = require("express");
+const passport = require("passport");
 const router = express.Router();
 
-const {register} = require('../controllers/Authentication/register.controller')
-const {login} = require('../controllers/Authentication/login.controller');
-const { logout } = require('../controllers/Authentication/logout.controller');
-const { changePassword } = require('../controllers/Authentication/changePassword.controller')
-const { handleGoogleCallback } = require('../controllers/Authentication/googleLogin.controller');
-const { authenticate } = require('../middlewares/auth.middleware');
-const { completeProfile } = require('../controllers/Authentication/profile.controller');
-const { verifyEmail } = require('../controllers/Authentication/verifyEmail.controller');
-const { forgotPassword } = require('../controllers/Authentication/forgotPassword.controller');
-const { resetPassword } = require('../controllers/Authentication/resetPassword.controller');
-const { refreshToken } = require('../controllers/Authentication/refreshToken.controller');
-
+const {
+  register,
+} = require("../controllers/Authentication/register.controller");
+const { login } = require("../controllers/Authentication/login.controller");
+const { logout } = require("../controllers/Authentication/logout.controller");
+const {
+  changePassword,
+} = require("../controllers/Authentication/changePassword.controller");
+const {
+  handleGoogleCallback,
+} = require("../controllers/Authentication/googleLogin.controller");
+const { authenticate } = require("../middlewares/auth.middleware");
+const {
+  completeProfile,
+} = require("../controllers/Authentication/profile.controller");
+const {
+  verifyEmail,
+} = require("../controllers/Authentication/verifyEmail.controller");
+const {
+  forgotPassword,
+} = require("../controllers/Authentication/forgotPassword.controller");
+const {
+  resetPassword,
+} = require("../controllers/Authentication/resetPassword.controller");
+const {
+  refreshToken,
+} = require("../controllers/Authentication/refreshToken.controller");
 
 // Register Route
-router.post('/register', register);
+router.post("/register", register);
 /**
  * @swagger
  * /api/v1/auth/register:
@@ -159,8 +174,7 @@ router.post('/register', register);
  *                   example: Internal server error
  */
 
-
-router.patch('/change-password', authenticate, changePassword);
+router.patch("/change-password", authenticate, changePassword);
 /**
  * @swagger
  * /api/v1/auth/change-password:
@@ -260,7 +274,7 @@ router.patch('/change-password', authenticate, changePassword);
  */
 
 // Verify Email Route
-router.get('/verify-email/:otp', verifyEmail)
+router.get("/verify-email/:otp", verifyEmail);
 /**
  * @swagger
  * /api/v1/auth/verify-email/{otp}:
@@ -319,7 +333,7 @@ router.get('/verify-email/:otp', verifyEmail)
  */
 
 // Login Route
-router.post('/login', login);
+router.post("/login", login);
 /** 
  * @swagger
  * /api/v1/auth/login:
@@ -422,7 +436,7 @@ router.post('/login', login);
 */
 
 // Forgot Password Route
-router.post('/forgot-password', forgotPassword);
+router.post("/forgot-password", forgotPassword);
 /**
  * @swagger
  * /api/v1/auth/forgot-password:
@@ -501,7 +515,7 @@ router.post('/forgot-password', forgotPassword);
  */
 
 // Logout Route
-router.post('/logout', authenticate, logout);
+router.post("/logout", authenticate, logout);
 /**
  * @swagger
  * /api/v1/auth/logout:
@@ -539,10 +553,8 @@ router.post('/logout', authenticate, logout);
  *                   example: Internal server error
  */
 
-
-
 //Password Reset Route
-router.post('/reset-password/:token', resetPassword);
+router.post("/reset-password/:token", resetPassword);
 /**
  * @swagger
  * /api/v1/auth/reset-password/{token}:
@@ -618,12 +630,15 @@ router.post('/reset-password/:token', resetPassword);
  *                   example: Internal Server Error
  */
 
-
 //Google Passport Auth Route
-router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'],
-    prompt: 'select_account',
- }));
- /**
+router.get(
+  "/google",
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
+    prompt: "select_account",
+  })
+);
+/**
  * @swagger
  * /api/v1/auth/google:
  *   get:
@@ -640,7 +655,7 @@ router.get('/google', passport.authenticate('google', { scope: ['profile', 'emai
  *             schema:
  *               type: string
  *               example: https://accounts.google.com/o/oauth2/auth?client_id=YOUR_CLIENT_ID...
- * 
+ *
  * /api/v1/auth/google/callback:
  *   get:
  *     summary: Handle Google OAuth callback
@@ -707,12 +722,15 @@ router.get('/google', passport.authenticate('google', { scope: ['profile', 'emai
  *                   example: Internal server error
  */
 
-
-// Google Login Route 
-router.get('/google/callback', passport.authenticate('google', {
-    failureRedirect: '/login',
+// Google Login Route
+router.get(
+  "/google/callback",
+  passport.authenticate("google", {
+    failureRedirect: "/login",
     session: true,
-}), handleGoogleCallback);
+  }),
+  handleGoogleCallback
+);
 /**
  * @swagger
  * /api/v1/auth/google/callback:
@@ -778,9 +796,7 @@ router.get('/google/callback', passport.authenticate('google', {
  *                   example: Internal server error
  */
 
-
-
-router.put('/complete-profile', authenticate, completeProfile);
+router.put("/complete-profile", authenticate, completeProfile);
 
 /**
  * @swagger
@@ -914,16 +930,33 @@ router.put('/complete-profile', authenticate, completeProfile);
  *                   example: Internal server error
  */
 
-
-router.post('/refresh-token', authenticate, refreshToken);
+router.post("/refresh-token", refreshToken);
 /**
  * @swagger
  * /api/v1/auth/refresh-token:
  *   post:
  *     summary: Refresh access token
- *     description: Generates a new access token using the refresh token.
+ *     description: Generates a new access token using the refresh token from either cookies or request body.
  *     tags:
  *       - Authentication
+ *     requestBody:
+ *       required: false
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               refreshToken:
+ *                 type: string
+ *                 description: The refresh token (optional if provided in cookies)
+ *                 example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+ *     parameters:
+ *       - in: cookie
+ *         name: refreshToken
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: The refresh token stored in cookies (optional if provided in body)
  *     responses:
  *       200:
  *         description: Access token refreshed successfully
@@ -939,7 +972,7 @@ router.post('/refresh-token', authenticate, refreshToken);
  *                   type: string
  *                   example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
  *       401:
- *         description: Unauthorized - Invalid or expired refresh token
+ *         description: Unauthorized - No refresh token provided or token invalid/expired
  *         content:
  *           application/json:
  *             schema:
@@ -950,8 +983,7 @@ router.post('/refresh-token', authenticate, refreshToken);
  *                   example: false
  *                 message:
  *                   type: string
- *                   example: Invalid or expired refresh token
+ *                   example: No refresh token provided or token invalid/expired
  */
-
 
 module.exports = router;

@@ -21,7 +21,7 @@ exports.handleGoogleCallback = async (req, res) => {
 
         const refreshToken = generateRefreshToken(existingUser.user_id)
 
-        res.cookie('RefreshToken', 'Bearer ' + refreshToken, {
+        res.cookie('RefreshToken', refreshToken, {
             httpOnly: process.env.NODE_ENV === 'production',
             secure: process.env.NODE_ENV === 'production',
         });

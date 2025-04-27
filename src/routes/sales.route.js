@@ -1,8 +1,72 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const salesController = require('../controllers/sales.controller');
-const { authenticate } = require('../middlewares/auth.middleware');
+const salesController = require("../controllers/sales.controller");
+const { authenticate } = require("../middlewares/auth.middleware");
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Sale:
+ *       type: object
+ *       properties:
+ *         sale_id:
+ *           type: string
+ *           format: uuid
+ *           example: "550e8400-e29b-41d4-a716-446655440000"
+ *         user_id:
+ *           type: string
+ *           format: uuid
+ *           example: "550e8400-e29b-41d4-a716-446655440001"
+ *         product_id:
+ *           type: string
+ *           format: uuid
+ *           example: "550e8400-e29b-41d4-a716-446655440002"
+ *         quantity:
+ *           type: integer
+ *           example: 2
+ *         price:
+ *           type: number
+ *           format: float
+ *           example: 2000.00
+ *         total_price:
+ *           type: number
+ *           format: float
+ *           example: 4000.00
+ *         profit_made:
+ *           type: number
+ *           format: float
+ *           example: 1000.00
+ *         customer_name:
+ *           type: string
+ *           example: "John Doe"
+ *         created_at:
+ *           type: string
+ *           format: date-time
+ *           example: "2025-04-18T14:30:00Z"
+ *         updated_at:
+ *           type: string
+ *           format: date-time
+ *           example: "2025-04-18T14:30:00Z"
+ *       required:
+ *         - product_id
+ *         - quantity
+ *         - price
+ *         - customer_name
+ *     SaleUpdate:
+ *       type: object
+ *       properties:
+ *         quantity:
+ *           type: integer
+ *           example: 3
+ *         price:
+ *           type: number
+ *           format: float
+ *           example: 2500.00
+ *         customer_name:
+ *           type: string
+ *           example: "Jane Doe"
+ */
 
 // Create sale Route
 /**
@@ -11,6 +75,8 @@ const { authenticate } = require('../middlewares/auth.middleware');
  *   post:
  *     summary: Create a new sale
  *     tags: [Sales]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -52,9 +118,7 @@ const { authenticate } = require('../middlewares/auth.middleware');
  *       500:
  *         description: Server error
  */
-router.post('/', authenticate,salesController.createSale);
-
-
+router.post("/", authenticate, salesController.createSale);
 
 // Get all sales Route
 /**
@@ -63,6 +127,8 @@ router.post('/', authenticate,salesController.createSale);
  *   get:
  *     summary: Get all sales with pagination and optional search
  *     tags: [Sales]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: query
  *         name: page
@@ -104,7 +170,7 @@ router.post('/', authenticate,salesController.createSale);
  *       500:
  *         description: Server error
  */
-router.get('/', authenticate ,salesController.getAllSales);
+router.get("/", authenticate, salesController.getAllSales);
 
 // Get sale by ID Route
 /**
@@ -113,6 +179,8 @@ router.get('/', authenticate ,salesController.getAllSales);
  *   get:
  *     summary: Get a sale by ID
  *     tags: [Sales]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -137,7 +205,7 @@ router.get('/', authenticate ,salesController.getAllSales);
  *       500:
  *         description: Server error
  */
-router.get('/:id',authenticate,salesController.getSaleById);
+router.get("/:id", authenticate, salesController.getSaleById);
 
 // Delete sale by ID Route
 
@@ -147,6 +215,8 @@ router.get('/:id',authenticate,salesController.getSaleById);
  *   delete:
  *     summary: Delete a sale by ID
  *     tags: [Sales]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -171,7 +241,7 @@ router.get('/:id',authenticate,salesController.getSaleById);
  *       500:
  *         description: Server error
  */
-router.delete('/:id', authenticate ,salesController.deleteSale);
+router.delete("/:id", authenticate, salesController.deleteSale);
 
 // Update sale by ID
 /**
@@ -180,6 +250,8 @@ router.delete('/:id', authenticate ,salesController.deleteSale);
  *   put:
  *     summary: Update a sale by ID
  *     tags: [Sales]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -222,7 +294,6 @@ router.delete('/:id', authenticate ,salesController.deleteSale);
  *       500:
  *         description: Server error
  */
-router.put('/:id', authenticate ,salesController.updateSale);
-
+router.put("/:id", authenticate, salesController.updateSale);
 
 module.exports = router;

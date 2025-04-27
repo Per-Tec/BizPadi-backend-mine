@@ -1,17 +1,93 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const productController = require('../controllers/product.controller');
-const { authenticate } = require('../middlewares/auth.middleware')
+const productController = require("../controllers/product.controller");
+const { authenticate } = require("../middlewares/auth.middleware");
 
-// Define your routes
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Product:
+ *       type: object
+ *       properties:
+ *         product_id:
+ *           type: string
+ *           format: uuid
+ *           example: "550e8400-e29b-41d4-a716-446655440000"
+ *         user_id:
+ *           type: string
+ *           format: uuid
+ *           example: "550e8400-e29b-41d4-a716-446655440001"
+ *         name:
+ *           type: string
+ *           example: "LG Fan"
+ *         description:
+ *           type: string
+ *           example: "A powerful fan with 3-speed settings"
+ *         price:
+ *           type: number
+ *           format: float
+ *           example: 200.00
+ *         cost_price:
+ *           type: number
+ *           format: float
+ *           example: 150.00
+ *         quantity:
+ *           type: integer
+ *           example: 10
+ *         image_url:
+ *           type: string
+ *           example: "https://example.com/images/lg-fan.jpg"
+ *         category:
+ *           type: string
+ *           example: "Electronics"
+ *         created_at:
+ *           type: string
+ *           format: date-time
+ *           example: "2025-04-18T14:30:00Z"
+ *         updated_at:
+ *           type: string
+ *           format: date-time
+ *           example: "2025-04-18T14:30:00Z"
+ *       required:
+ *         - name
+ *         - price
+ *         - quantity
+ *     ProductUpdate:
+ *       type: object
+ *       properties:
+ *         name:
+ *           type: string
+ *           example: "Updated LG Fan"
+ *         description:
+ *           type: string
+ *           example: "Updated description for the fan"
+ *         price:
+ *           type: number
+ *           format: float
+ *           example: 250.00
+ *         quantity:
+ *           type: integer
+ *           example: 15
+ *         image_url:
+ *           type: string
+ *           example: "https://example.com/images/updated-lg-fan.jpg"
+ *         category:
+ *           type: string
+ *           example: "Home Appliances"
+ */
+
+
 // Create product Route
-router.post('/', authenticate, productController.createProduct);
+router.post("/", authenticate, productController.createProduct);
 /**
  * @swagger
  * /api/products:
  *   post:
  *     summary: Create a new product
  *     tags: [Products]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -70,13 +146,15 @@ router.post('/', authenticate, productController.createProduct);
  */
 
 // Get all products Route
-router.get('/', authenticate, productController.getAllProducts);
+router.get("/", authenticate, productController.getAllProducts);
 /**
  * @swagger
  * /api/products:
  *   get:
  *     summary: Get all products
  *     tags: [Products]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: A list of products
@@ -104,15 +182,16 @@ router.get('/', authenticate, productController.getAllProducts);
  *                   example: Failed to fetch products
  */
 
-
 // Get product by ID Route
-router.get('/:id', authenticate,  productController.getProductById);
+router.get("/:id", authenticate, productController.getProductById);
 /**
  * @swagger
  * /api/products/{id}:
  *   get:
  *     summary: Get a product by ID
  *     tags: [Products]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -156,13 +235,15 @@ router.get('/:id', authenticate,  productController.getProductById);
  */
 
 // Update product Route
-router.put('/:id', authenticate, productController.updateProduct);
+router.put("/:id", authenticate, productController.updateProduct);
 /**
  * @swagger
  * /api/products/{id}:
  *   put:
  *     summary: Update a product by ID
  *     tags: [Products]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -211,15 +292,16 @@ router.put('/:id', authenticate, productController.updateProduct);
  *                   example: Failed to update product
  */
 
-
 // Delete product Route
-router.delete('/:id', authenticate, productController.deleteProduct);
+router.delete("/:id", authenticate, productController.deleteProduct);
 /**
  * @swagger
  * /api/products/{id}:
  *   delete:
  *     summary: Delete a product by ID
  *     tags: [Products]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -262,6 +344,5 @@ router.delete('/:id', authenticate, productController.deleteProduct);
  *                   type: string
  *                   example: Failed to delete product
  */
-
 
 module.exports = router;

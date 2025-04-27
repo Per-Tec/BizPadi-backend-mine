@@ -56,7 +56,7 @@ exports.login = async (req, res) => {
             secure: process.env.NODE_ENV === 'production',
         });
 
-        res.cookie('RefreshToken', 'Bearer ' + refreshToken, {
+        res.cookie('RefreshToken',refreshToken, {
             httpOnly: process.env.NODE_ENV === 'production',
             secure: process.env.NODE_ENV === 'production',
         });

@@ -3,11 +3,53 @@ const router = express.Router();
 const clientController = require('../controllers/clients.controller');
 const { authenticate } = require('../middlewares/auth.middleware')
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Client:
+ *       type: object
+ *       properties:
+ *         client_id:
+ *           type: string
+ *           format: uuid
+ *           example: 8ac67d3b-642a-4364-9ca4-7d18c7f0569d
+ *         user_id:
+ *           type: string
+ *           format: uuid
+ *           example: 7bc67d3b-642a-4364-9ca4-7d18c7f0569e
+ *         name:
+ *           type: string
+ *           example: John Doe
+ *         email:
+ *           type: string
+ *           format: email
+ *           example: john.doe@example.com
+ *         phone_number:
+ *           type: string
+ *           example: +1234567890
+ *         address:
+ *           type: string
+ *           example: 123 Main Street, Lagos
+ *         created_at:
+ *           type: string
+ *           format: date-time
+ *           example: 2025-04-18T14:30:00Z
+ *         updated_at:
+ *           type: string
+ *           format: date-time
+ *           example: 2025-04-18T14:30:00Z
+ *       required:
+ *         - name
+ *         - email
+ *         - phone_number
+ *         - address
+ */
 
 // Create client Route
 /**
  * @swagger
- * /clients:
+ * /api/clients:
  *   post:
  *     summary: Create a new client
  *     tags:
@@ -63,7 +105,7 @@ router.post('/',authenticate, clientController.createClient);
 // Get all clients Route
 /**
  * @swagger
- * /clients:
+ * /api/clients:
  *   get:
  *     summary: Get all clients with pagination and search
  *     tags:
@@ -120,7 +162,7 @@ router.get('/', authenticate, clientController.getAllClients)
 // Get client by ID Route
 /**
  * @swagger
- * /clients/{id}:
+ * /api/clients/{id}:
  *   get:
  *     summary: Get a client by ID
  *     tags:
@@ -182,7 +224,7 @@ router.get('/:id', authenticate, clientController.getClientById )
 // Update client by ID Route
 /**
  * @swagger
- * /clients/{id}:
+ * /api/clients/{id}:
  *   put:
  *     summary: Update a client by ID
  *     tags:
@@ -244,7 +286,7 @@ router.put('/:id', authenticate, clientController.updateClientById )
 // Delete client by ID Route
 /**
  * @swagger
- * /clients/{id}:
+ * /api/clients/{id}:
  *   delete:
  *     summary: Delete a client by ID
  *     tags:

@@ -66,6 +66,13 @@ exports.getAllClients = async (req, res) => {
     // Get query params with defaults
     const { page = 1, limit = 10, search = '' } = req.query;
     const offset = (parseInt(page) - 1) * parseInt(limit);
+    if(limit > 20) {
+      return res.status(400).json({
+        success: false,
+        message: 'Limit cannot be greater than 20',
+      });
+    }
+
 
     // Build search condition
     const where = {
