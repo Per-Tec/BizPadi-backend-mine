@@ -19,7 +19,7 @@ jobs:
       with:
         host: ${{ secrets.EC2_HOST }}
         username: ${{ secrets.EC2_USERNAME }}
-        key: ${{ secrets.EC2_SSH_KEY }}
+        key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
         source: "."
         target: "~/BizPadi-backend"
 
@@ -28,7 +28,7 @@ jobs:
       with:
         host: ${{ secrets.EC2_HOST }}
         username: ${{ secrets.EC2_USERNAME }}
-        key: ${{ secrets.EC2_SSH_KEY }}
+        key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
         script: |
           cd ~/BizPadi-backend
           npm install
